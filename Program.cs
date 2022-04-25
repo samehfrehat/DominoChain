@@ -20,12 +20,15 @@ namespace DominoChain
     {
         static void Main(string[] args)
         {
-            //Invalid Input {2,1} {2,3} {1,3} {3,4}
+            // Invalid Input {2,1} {2,3} {1,3} {3,4}
             // Valid Input {2,1} {2,1} {1,2} {1,2}
-            // Valid Input
-            //var dominos = new (int, int)[] { (2, 1), (2,3), (1,3)};
-            var dominos = new (int, int)[] { (2, 1), (2, 3), (1, 3), (3,4) };
+       
+            var dominos = new (int, int)[] { (2, 1), (2,3), (1,3)}; //Valid Input
+
+            // Get the ordered dominos chain and return empty if chain is not Circular 
             var circularChain = GetCircularChain(dominos);
+
+            // Print the output chain
             if(circularChain.Length == 0)
             {
                 Console.WriteLine("Not a Circular Chain");
@@ -41,7 +44,12 @@ namespace DominoChain
 
         private static (int, int)[] GetCircularChain((int,int)[] dominos)
         {
+            // check if the chain is circular or return empty
             if (!IsCircularChain(dominos)) return Array.Empty<(int,int)>();
+
+            // loop through the chain and find the connecters
+            // then replace the dominos in place
+            // Note: switching one dominos values is accespted
             for (int i = 0; i < dominos.Length; i++)
             {
                 for (int j = i+1; j < dominos.Length; j++)
@@ -66,6 +74,10 @@ namespace DominoChain
             return dominos;
         }
 
+        // Create a new dictionary for dominos values
+        // if a value found muliable times and the count
+        // for the same value is not even it means this
+        // chain is not circular
         private static bool IsCircularChain((int, int)[] dominos)
         {
             var dictionary = new Dictionary<int, int>(dominos.Length * 2);
